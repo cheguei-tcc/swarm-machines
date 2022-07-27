@@ -1,0 +1,65 @@
+name: Deploy
+on:
+  push:
+    branches: [master]
+
+jobs:
+  terraform-plan:
+    name: Plan Terraform
+    runs-on: ubuntu-latest
+    working-directory: ./aws
+    steps:
+      - uses: actions/checkout@v2
+      - name: Terraform init
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform init -input=false
+
+      - name: Terraform validation
+        run: terraform validate
+
+      - name: Terraform plan
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform plan -input=false  
+
+  deploy-terraform:
+    name: Apply Terraform
+    needs: terraform-plan
+    runs-on: ubuntu-latest
+    working-directory: ./aws
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Terraform init
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: terraform init -input=false
+
+    - name: Terraform validation
+      run: terraform validate
+
+    - name: Terraform apply
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: terraform apply -auto-approve -input=false      
+      
+    - name: Sleep for 60s
+      uses: juliangruber/sleep-action@v1
+      with:
+        time: 60s
+
+    - name: generate secret cert for ansible
+      run: |
+          echo ${{ secrets.SWARM_MACHINES_KEY }} | base64 -d > ansible/swarm-machines.pem
+          chmod 400 ansible/swarm-machines.pem
+      shell: bash
+
+    - name: run ansible playbook
+      run: |
+        cd ansible
+        ansible-playbook main.yaml

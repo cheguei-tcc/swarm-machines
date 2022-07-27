@@ -1,2 +1,10 @@
 env.sh
 scripts.sh
+
+.terraform/*
+terraform.tfstate*
+.terraform*
+
+swarm-machines.pem
+
+hosts
