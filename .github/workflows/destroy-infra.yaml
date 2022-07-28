@@ -12,5 +12,8 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
+    - name: Terraform init
+      run: cd aws && terraform init -input=false
+
     - name: Terraform Destroy
       run: cd aws && terraform destroy -auto-approve -input=false
