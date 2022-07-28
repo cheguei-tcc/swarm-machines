@@ -7,6 +7,5 @@ services:
       - "80:80"
     deploy:
       mode: global
-      replicas: 3
       restart_policy: 
         condition: on-failure
