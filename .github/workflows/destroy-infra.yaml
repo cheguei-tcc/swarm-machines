@@ -6,9 +6,11 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 jobs:
-  example:
-    name: Terraform Destroy
+  deploy-terraform:
+    name: Destroy Infra
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        run: cd aws && terraform destroy -auto-approve -input=false
+    - uses: actions/checkout@v1
+
+    - name: Terraform Destroy
+      run: cd aws && terraform destroy -auto-approve -input=false
