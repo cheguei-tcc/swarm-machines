@@ -18,3 +18,12 @@ aws-terraform-output:
 
 aws-ansible-playbook:
 	cd ansible && ansible-playbook main.yaml && cd ..
+
+aws-terraform-apply-ci:
+	cd aws && terraform apply -auto-approve -input=false && cd ..
+
+aws-ansible-playbook-ci:
+	echo ${{ secrets.SWARM_MACHINES_KEY }} | base64 -d > ansible/swarm-machines.pem
+	&& chmod 400 ansible/swarm-machines.pem
+	&& cd ansible
+	&& ansible-playbook main.yaml
