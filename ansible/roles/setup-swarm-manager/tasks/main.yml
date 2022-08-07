@@ -12,4 +12,8 @@
   set_fact:
     join_token_manager: "{{ init_swarm.swarm_facts.JoinTokens.Manager }}"
 
-
+- name: Create public docker overlay network
+  docker_network:
+    name: public
+    attachable: true
+    driver: overlay
