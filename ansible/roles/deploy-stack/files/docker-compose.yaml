@@ -9,3 +9,9 @@ services:
       mode: global
       restart_policy: 
         condition: on-failure
+    networks:
+      - public
+networks:
+  public:
+    external:
+      name: public
