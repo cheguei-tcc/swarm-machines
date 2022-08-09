@@ -2,11 +2,11 @@ version: '3'
 
 services: 
   nginx:
-    image: nginx:alpine
+    image: christianseki/nginx:latest
     ports:
       - "80:80"
     deploy:
-      mode: replicated
+      mode: global
       restart_policy: 
         condition: on-failure
     networks:
