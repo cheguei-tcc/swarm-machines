@@ -44,28 +44,28 @@ resource "aws_security_group" "cheguei_security_group" {
     from_port   = 2377
     to_port     = 2377
     protocol    = "tcp"
-    cidr_blocks = ["10.10.0.0/24"]
+    cidr_blocks = ["10.10.0.0/16"]
   }
 
   ingress {
     from_port   = 7946
     to_port     = 7946
     protocol    = "tcp"
-    cidr_blocks = ["10.10.0.0/24"]
+    cidr_blocks = ["10.10.0.0/16"]
   }
 
   ingress {
     from_port   = 7946
     to_port     = 7946
     protocol    = "udp"
-    cidr_blocks = ["10.10.0.0/24"]
+    cidr_blocks = ["10.10.0.0/16"]
   }
 
   ingress {
     from_port   = 4789
     to_port     = 4789
     protocol    = "udp"
-    cidr_blocks = ["10.10.0.0/24"]
+    cidr_blocks = ["10.10.0.0/16"]
   }
 
   # SSH access
