@@ -22,14 +22,14 @@ resource "aws_lb_target_group" "swarm_cheguei_instances" {
   vpc_id   = module.cheguei_vpc.vpc_id
 }
 
-# workers
+# managers
 resource "aws_lb_target_group_attachment" "swarm_cheguei_lb_attachment_managers" {
   target_group_arn = aws_lb_target_group.swarm_cheguei_instances.arn
   target_id        = module.ec2_instance_manager.id
   port             = 80
 }
 
-# manager
+# workers
 resource "aws_lb_target_group_attachment" "swarm_cheguei_lb_attachment_workers" {
   for_each = module.ec2_instance_worker_nodes
 

@@ -25,6 +25,13 @@ resource "aws_security_group" "cheguei_security_group" {
   vpc_id = module.cheguei_vpc.vpc_id
 
   ingress {
+    from_port   = 888
+    to_port     = 888
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"

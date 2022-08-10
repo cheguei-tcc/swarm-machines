@@ -1,11 +1,23 @@
-- name: copy the stack template to the remote host
+- name: copy the NGINX stack template to the remote host
   copy:
     src: "docker-compose.yaml"
     dest: "/opt/docker-compose.yaml"
 
-- name: Deploy stack from a compose file
+- name: Deploy NGINX stack from a compose file
   docker_stack:
     state: present
     name: nginx
     compose:
-      - /opt/docker-compose.yaml
+      - /opt/docker-compose.yaml  
+  
+- name: copy the SWARMPIT stack template to the remote host
+  copy:
+    src: "swarmpit.yaml"
+    dest: "/opt/swarmpit.yaml"
+
+- name: Deploy SWARMPIT stack from a compose file
+  docker_stack:
+    state: present
+    name: swarmpit
+    compose:
+      - /opt/swarmpit.yaml  
